@@ -1,0 +1,254 @@
+{% extends 'base/base01.html' %}
+{%load static%}
+
+{% block base01 %}
+
+<h4 class="pt-3">Consulta C-{{ consulta.id|stringformat:"05d" }}</h4>
+<hr>
+
+<div class="row mb-2">
+  <div class="col-6">
+    <h6 class="mb-2 mx-2">Informações:</h6>
+  </div>
+
+  <div class="col-6 d-flex justify-content-end">
+    {% if consulta.status == 'Aguardando' or consulta.status == 'Aprovada'%}
+
+        <button class="btn btn-outline-danger btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#cancelModal">
+          Cancelar Guia
+        </button>
+
+
+    {% endif %}
+  </div>
+</div>
+
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Número:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    C-{{ consulta.id|stringformat:"05d" }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Status: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    <!-- {{ consulta.status }} -->
+
+    {% if consulta.status == 'Aguardando' %}
+    <i class="bi bi-square" style="color: #70706f;"></i>
+    {% elif consulta.status == 'Aprovada' %}
+    <i class="bi bi-check-square" style="color: #1680e4;"></i>
+    {% elif consulta.status == 'Faturada' %}
+    <i class="bi bi-check-square-fill" style="color: #1680e4;"></i>
+    {% elif consulta.status == 'Auditada' %}
+    <i class="bi bi-info-square-fill" style="color: #209d35;"></i>
+    {% elif consulta.status == 'Cancelada' %}
+    <i class="bi bi-x-square" style="color: red;"></i>
+    {% endif %}
+
+    &ensp;{{ consulta.status }}
+
+    
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {{ consulta.criacao_usuario.username }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Criação: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+      {{ consulta.criacao_data|date:'d/m/y - H:i' }}
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Nome:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {{ cadastro.nome_completo }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Documento: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {{ cadastro.cpf }}
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Especialidade:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {{ consulta.especialidade }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Credenciado: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {{ consulta.credenciado }}
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Autenticação:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {{ consulta.verificador }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Coparticipação:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.coparticipacao == None%}
+      - - -
+    {% else %}
+      R$ {{ consulta.coparticipacao|floatformat:"2g" }}
+    {% endif %}
+  </div>
+</div>
+
+
+<h6 class="mb-2 mt-3 mx-2">Aprovação:</h6>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {% if consulta.aprovacao_usuario == None%}
+      - - -
+    {% else %}
+      {{ consulta.aprovacao_usuario }}
+    {% endif %}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Data:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.aprovacao_data == None%}
+      - - -
+    {% else %}
+      {{ consulta.aprovacao_data|date:'d/m/y - H:i' }}
+    {% endif %}
+  </div>
+</div>
+
+<h6 class="mb-2 mt-3 mx-2">Faturamento:</h5>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {% if consulta.faturamento_usuario == None%}
+      - - -
+    {% else %}
+      {{ consulta.faturamento_usuario }}
+    {% endif %}
+  </div>
+  
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Data:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.faturamento_data == None%}
+      - - -
+    {% else %}
+      {{ consulta.faturamento_data|date:'d/m/y - H:i' }}
+    {% endif %}
+  </div>
+</div>
+
+<h6 class="mb-2 mt-3 mx-2">Auditoria:</h5>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {% if consulta.auditoria_usuario == None%}
+      - - -
+    {% else %}
+      {{ consulta.auditoria_usuario }}
+    {% endif %}
+  </div>
+  
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Data:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.auditoria_data == None%}
+      - - -
+    {% else %}
+      {{ consulta.auditoria_data|date:'d/m/y - H:i' }}
+    {% endif %}
+  </div>
+</div>
+
+<h6 class="mb-2 mt-3 mx-2">Cancelamento:</h5>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {% if consulta.cancelamento_usuario == None%}
+      - - -
+    {% else %}
+      {{ consulta.cancelamento_usuario }}
+    {% endif %}
+  </div>
+  
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Data:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.cancelamento_data == None%}
+      - - -
+    {% else %}
+      {{ consulta.cancelamento_data|date:'d/m/y - H:i' }}
+    {% endif %}
+  </div>
+</div>
+
+<hr>
+
+<!-- Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="cancelModalLabel">Deseja realmente cancelar a guia?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Voltar</button>
+          
+          <a href="/consulta-cancelamento/{{ consulta.id }}">
+            <button type="button" class="btn btn-danger btn-sm">Confirmar Cancelamento</button>
+          </a>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

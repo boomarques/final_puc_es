@@ -1,0 +1,22 @@
+{% extends 'base/base01.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+
+{% block base01 %}
+
+<h4 class="pt-3">Nova Consulta</h4>
+
+<hr>
+
+<div class="row d-flex justify-content-center">
+  <div class="col-md-6">
+    <form method="POST">
+      {% csrf_token %}
+      {{ cred|crispy }}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-success">Cadastrar</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

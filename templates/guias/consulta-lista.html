@@ -1,0 +1,83 @@
+{% extends 'base/base01.html' %}
+{%load static%}
+
+{% block base01 %}
+  <h4 class="pt-3">Minhas Guias de Consulta</h4>
+  <hr>
+
+  <div class="d-flex justify-content-end mb-2">
+    <div class="pagination">
+      <span class="step-links">
+        {% if consultas.has_previous %}
+          <a class="mx-2" href="?page=1">
+            <i class="fa fa-fast-backward text-primary" aria-hidden="true"></i>
+          </a>
+          <a class="mx-2" href="?page={{ consultas.previous_page_number }}">
+            <i class="fa fa-step-backward text-primary" aria-hidden="true"></i>
+          </a>
+        {% else %}
+          <i class="fa fa-fast-backward text-secondary mx-1" aria-hidden="true"></i>
+          <i class="fa fa-step-backward text-secondary mx-1" aria-hidden="true"></i>
+        {% endif %}
+        
+        <span class="current mx-2">
+          {{ consultas.number }} / {{ consultas.paginator.num_pages }}
+        </span>
+    
+        {% if consultas.has_next %}
+          <a class="mx-1" href="?page={{ consultas.next_page_number }}">
+            <i class="fa fa-step-forward text-primary"></i>
+          </a>
+          <a class="mx-1" href="?page={{ consultas.paginator.num_pages }}">
+            <i class="fa fa-fast-forward text-primary"></i>
+          </a>
+        {% else %}
+          <i class="fa fa-fast-forward text-secondary mx-1" aria-hidden="true"></i>
+          <i class="fa fa-step-forward text-secondary mx-1" aria-hidden="true"></i>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+
+  {% for item in consultas %}
+    <a href="/consulta-detalhe/{{ item.id }}">
+      <div class="row border-bottom py-1 mx-2 mb-1 guias-link">
+        
+        <div class="col-4 col-md-2">
+          <h6> C-{{ item.id|stringformat:"05d" }} </h6> 
+        </div>
+        
+        <div class="col-4 col-md-2 d-flex justify-content-center">
+          {{ item.criacao_data|date:'d/m/y' }}
+        </div>
+        
+        <div class="col-4 col-md-2 order-md-4 d-flex justify-content-end">
+          {{ item.status }}&ensp;
+
+          {% if item.status == 'Aguardando' %}
+            <i class="bi bi-square" style="color: #70706f;"></i>
+          {% elif item.status == 'Aprovada' %}
+            <i class="bi bi-check-square" style="color: #1680e4;"></i>
+          {% elif item.status == 'Faturada' %}
+            <i class="bi bi-check-square-fill" style="color: #1680e4;"></i>
+          {% elif item.status == 'Auditada' %}
+            <i class="bi bi-info-square-fill" style="color: #209d35;"></i>
+          {% elif item.status == 'Cancelada' %}
+            <i class="bi bi-x-square" style="color: red;"></i>
+          {% endif %}
+        </div>
+        
+        <div class="col-12 col-md-3">
+          {{ item.credenciado }}
+        </div>
+
+        <div class="col-12 col-md-3"> 
+          {{ item.especialidade }} 
+        </div>
+
+      </div>
+    </a>
+  {% endfor %}
+{% endblock %}
+
+

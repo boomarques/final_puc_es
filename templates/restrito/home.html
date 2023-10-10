@@ -1,0 +1,60 @@
+{% extends 'base/baseRestrito.html' %}
+{%load static%}
+
+{% block baseRestrito %}
+
+<h4 class="pt-3">Área Restrita</h4>
+<hr>
+
+<h6 class="mb-2">Informações do usuário:</h6>
+
+<div class="row border-bottom py-1 mx-2 mb-1 guias-link">
+  <div class="col-2">
+    Login:
+  </div>
+  <div class="col-3">
+    <strong>{{usuario_ativo.login}}</strong>
+  </div>     
+  <div class="col-2">
+    Nome:
+  </div>
+  <div class="col-5"> 
+    <strong>{{usuario_ativo.nome_completo}}</strong>
+  </div>
+</div>
+
+<div class="row border-bottom py-1 mx-2 mb-1 guias-link">
+  <div class="col-2">
+    Perfil de Acesso:
+  </div>
+  <div class="col-3">
+    <strong>
+      {% if usuario_ativo.is_aprovador %} Aprovador {% endif %}
+      {% if usuario_ativo.is_faturador %} Faturador {% endif %}
+      {% if usuario_ativo.is_auditor %} Auditor {% endif %}
+      {% if usuario_ativo.is_administrador %} Administrador {% endif %}
+    </strong> 
+  </div>     
+  <div class="col-2">
+    Documento:
+  </div>
+  <div class="col-5"> 
+    <strong>{{usuario_ativo.cpf}}</strong>
+  </div>
+</div>
+
+{% if usuario_ativo.is_faturador %} 
+  <div class="row border-bottom py-1 mx-2 mb-1 guias-link">
+    <div class="col-2">
+      Credenciado:
+    </div>
+    <div class="col-10">
+      <strong> {{usuario_ativo.credenciado_acesso}} </strong>
+    </div>     
+  </div>
+
+
+
+{% endif %}
+
+{% endblock %}

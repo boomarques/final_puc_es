@@ -1,0 +1,215 @@
+{% extends 'base/baseRestrito.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+
+{% block baseRestrito %}
+
+<h4 class="mt-2">Consulta C-{{ consulta.id|stringformat:"05d" }}</h4>
+<hr>
+<div class="row mb-2">
+  <div class="col-6">
+    <h6 class="mb-2 mx-2">Informações:</h6>
+  </div>
+
+  <div class="col-6 d-flex justify-content-end">
+    <div class="col d-flex justify-content-end mx-1">
+      {% if msg == 'Código verificador incorreto!' %}
+      <h6 class="text-danger mt-1">{{msg}}</h6>
+      {% else %}
+      <h6 class="text-primary mt-1">{{msg}}</h6>
+      {% endif %}
+      
+      {% if consulta.status == 'Aprovada' %}
+      <button class="btn btn-outline-primary btn-sm ms-4" data-bs-toggle="modal" data-bs-target="#aprovaModal">
+        Faturar Guia
+      </button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Número:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    C-{{ consulta.id|stringformat:"05d" }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Status: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.status == 'Aprovada' %}
+    <i class="bi bi-square text-secondary"></i> &ensp; Aguardando
+    {% elif consulta.status == 'Faturada' %}
+    <i class="bi bi-check-square-fill text-success"></i> &ensp; Faturada
+    {% endif %}
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {{ consulta.criacao_usuario.username }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Criação: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+      {{ consulta.criacao_data|date:'d/m/y - H:i' }}
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Nome:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {{ cadastro.nome_completo }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Documento: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {{ cadastro.cpf }}
+  </div>
+</div>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Especialidade:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {{ consulta.especialidade }}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Credenciado: 
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {{ consulta.credenciado }}
+  </div>
+</div>
+
+<h6 class="mb-2 mt-3 mx-2">Aprovação:</h6>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {% if consulta.aprovacao_usuario == None%}
+      - - -
+    {% else %}
+      {{ consulta.aprovacao_usuario }}
+    {% endif %}
+  </div>
+
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Data:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.aprovacao_data == None%}
+      - - -
+    {% else %}
+      {{ consulta.aprovacao_data|date:'d/m/y - H:i' }}
+    {% endif %}
+  </div>
+</div>
+
+<h6 class="mb-2 mt-3 mx-2">Faturamento:</h5>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {% if consulta.faturamento_usuario == None%}
+      - - -
+    {% else %}
+      {{ consulta.faturamento_usuario }}
+    {% endif %}
+  </div>
+  
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Data:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.faturamento_data == None%}
+      - - -
+    {% else %}
+      {{ consulta.faturamento_data|date:'d/m/y - H:i' }}
+    {% endif %}
+  </div>
+</div>
+
+<h6 class="mb-2 mt-3 mx-2">Auditoria:</h5>
+
+<div class="row mx-1 guias-link">
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Usuário:
+  </div>
+  <div class="col-6 col-md-4 py-1  border-bottom border-white">
+    {% if consulta.auditoria_usuario == None%}
+      - - -
+    {% else %}
+      {{ consulta.auditoria_usuario }}
+    {% endif %}
+  </div>
+  
+  <div class="col-6 col-md-2 py-1 text-muted  border-bottom border-white">
+    Data:
+  </div>
+  <div class="col-6 col-md-4 py-1 border-bottom border-white">
+    {% if consulta.auditoria_data == None%}
+      - - -
+    {% else %}
+      {{ consulta.auditoria_data|date:'d/m/y - H:i' }}
+    {% endif %}
+  </div>
+</div>
+
+<br><hr>
+
+<!-- Modal -->
+
+
+<div class="modal fade" id="aprovaModal" tabindex="-1" aria-labelledby="aprovaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="aprovaModalLabel">Confirmar o faturamento da guia?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        
+        <form method="POST">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success">Faturar</button>
+          </div>
+          
+        </form>
+
+      </div>
+
+      <div class="modal-footer">
+        
+        
+        
+      
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

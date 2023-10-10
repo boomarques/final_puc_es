@@ -1,0 +1,72 @@
+{% extends 'base/baseRestrito.html' %}
+{%load static%}
+
+{% block baseRestrito %}
+<h4 class="pt-3">{{header}}</h4>
+<hr>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-end mb-2">
+  <div class="pagination">
+    <span class="step-links">
+      {% if consultas.has_previous %}
+        <a class="mx-2" href="?page=1">
+          <i class="fa fa-fast-backward text-primary" aria-hidden="true"></i>
+        </a>
+        <a class="mx-2" href="?page={{ consultas.previous_page_number }}">
+          <i class="fa fa-step-backward text-primary" aria-hidden="true"></i>
+        </a>
+      {% else %}
+        <i class="fa fa-fast-backward text-secondary mx-1" aria-hidden="true"></i>
+        <i class="fa fa-step-backward text-secondary mx-1" aria-hidden="true"></i>
+      {% endif %}
+      
+      <span class="current mx-2">
+        {{ consultas.number }} / {{ consultas.paginator.num_pages }}
+      </span>
+  
+      {% if consultas.has_next %}
+        <a class="mx-1" href="?page={{ consultas.next_page_number }}">
+          <i class="fa fa-step-forward text-primary"></i>
+        </a>
+        <a class="mx-1" href="?page={{ consultas.paginator.num_pages }}">
+          <i class="fa fa-fast-forward text-primary"></i>
+        </a>
+      {% else %}
+        <i class="fa fa-fast-forward text-secondary mx-1" aria-hidden="true"></i>
+        <i class="fa fa-step-forward text-secondary mx-1" aria-hidden="true"></i>
+      {% endif %}
+    </span>
+  </div>
+</div>
+
+<!-- Tabela com as Guias -->
+{% for item in consultas %}
+
+  <a href="{% url 'restrito:ap'%}consulta-detalhe/{{ item.id }}">
+    <div class="row border-bottom py-1 mx-2 mb-1 guias-link">
+      
+      <div class="col-4 col-md-2">
+        <h6> C-{{ item.id|stringformat:"05d" }} </h6> 
+      </div>
+      
+      <div class="col-4 col-md-2 d-flex justify-content-center">
+        {{ item.criacao_data|date:'d/m/y' }}
+      </div>     
+      
+      <div class="col-12 col-md-3">
+        {{ item.credenciado }}
+      </div>
+
+      <div class="col-12 col-md-3"> 
+        {{ item.especialidade }} 
+      </div>
+
+      <div class="col-4 col-md-2 d-flex justify-content-end">
+        {{ item.criacao_usuario }}
+      </div>
+    </div>
+  </a>
+{% endfor %}
+
+{% endblock %}

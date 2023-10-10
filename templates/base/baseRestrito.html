@@ -1,0 +1,233 @@
+{% extends 'base/base00.html' %}
+{%load static%}
+
+{% block base00 %}
+
+<!-- Moldura Externa -->
+<div class="container-fluid  min-vh-100 px-0" style="background-color: var(--color-04);">
+  
+<!-- Header -->
+  <div class="container-fluid justify-content-center px-2 py-3" style="background-color: var(--color-01);">
+    <div class="container">
+      <div class="row d-flex justify-content-between align-items-center" style="min-height: 75px;">
+        <div class="col m-0 p-0">
+          <a href="/">
+            <img src="{% static 'imgs/logo_02.png'%}" alt="sigame" height="60px" width="195px">
+          </a>
+        </div>
+        
+        <div class="col d-flex justify-content-end">
+            <a class="nav-link dropdown-toggle" href="#" style="color: var(--color-04);" role="button" data-bs-toggle="dropdown" aria-expanded="false" > {{ user.get_username }} </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="/accounts/password_change/">Alterar Senha</a></li>
+              <li><a class="dropdown-item" href="/accounts/logout">Desconectar</a></li>
+            </ul>
+          </div>
+      </div>
+    </div>
+  </div> 
+  
+<!-- Navbar -->
+  <nav class="navbar navbar-expand-lg px-2" style="background-color: var(--color-03); height: 60px;">
+    <div class="container">
+      <div class=" navbar-collapse justify-content-center" id="navbarNav">
+      
+        <!-- NAVBAR APROVADOR -->
+        {% if usuario_ativo.is_aprovador %}
+        
+        <div class="container">
+          <div class="d-flex justify-content-around py-1">
+            <a class="nav-link-res text-center" href="{% url 'restrito:ap-consulta-solicitadas'%}">
+              <p style="font-size: 12px;">
+                Consultas
+              </p>
+              <i class="bi bi-square" style="color: #70706f;"></i>&ensp;Aguardando
+            </a>
+
+            <a class="nav-link-res text-center" href="{% url 'restrito:ap-consulta-aprovadas'%}">
+              <p style="font-size: 12px;">
+                Consultas
+              </p>
+              <i class="bi bi-check-square" style="color: #1680e4;"></i>&ensp;Aprovadas
+            </a>
+          
+            <a class="nav-link-res text-center" href="{% url 'restrito:ap-consulta-canceladas'%}">
+              <p style="font-size: 12px;">
+                Consultas
+              </p>
+              <i class="bi bi-x-square" style="color: red;"></i>&ensp;Canceladas
+            </a>
+
+            <div class="border-end"></div>
+
+            <a class="nav-link-res text-center" href="{% url 'restrito:ap-exame-lista'%}">
+              <p style="font-size: 12px;">
+                Exames
+              </p>
+              <i class="bi bi-square" style="color: #70706f;"></i>&ensp;Aguardando
+            </a>
+          
+            <a class="nav-link-res text-center" href="{% url 'restrito:ap-exame-lista'%}">
+              <p style="font-size: 12px;">
+                Exames
+              </p>
+              <i class="bi bi-check-square" style="color: #1680e4;"></i>&ensp;Aprovados
+            </a>
+          
+            <a class="nav-link-res text-center" href="{% url 'restrito:ap-exame-lista'%}">
+              <p style="font-size: 12px;">
+                Exames
+              </p>
+              <i class="bi bi-x-square" style="color: red;"></i>&ensp;Cancelados
+            </a>
+          </div>
+        </div>
+        
+        {% endif %}
+        
+        <!-- NAVBAR FATURADOR -->
+        {% if usuario_ativo.is_faturador %}
+
+        <div class="container">
+          <div class="d-flex justify-content-around py-1">
+            <a class="nav-link-res text-center" href="{% url 'restrito:fa-consulta-aprovadas'%}">
+              <p style="font-size: 12px;">
+                Consultas
+              </p>
+              <i class="bi bi-square" style="color: #70706f;"></i>
+              &ensp;Aguardando
+            </a>
+        
+            <a class="nav-link-res text-center" href="{% url 'restrito:fa-consulta-faturadas'%}">
+              <p style="font-size: 12px;">
+                Consultas
+              </p>
+              <i class="bi bi-check-square" style="color: #1680e4;"></i>
+              &ensp;Faturadas
+            </a>
+          
+            <div class="border-end"></div>
+        
+            <a class="nav-link-res text-center" href="{% url 'restrito:fa-exame-lista'%}">
+              <p style="font-size: 12px;">
+                Exames
+              </p>
+              <i class="bi bi-square" style="color: #70706f;"></i>
+              &ensp;Aguardando
+            </a>
+          
+            <a class="nav-link-res text-center" href="{% url 'restrito:fa-exame-lista'%}">
+              <p style="font-size: 12px;">
+                Exames
+              </p>
+              <i class="bi bi-check-square" style="color: #1680e4;"></i>
+              &ensp;Faturadas
+            </a>
+          </div>
+        </div>
+
+        {% endif %}
+
+        <!-- NAVBAR AUDITOR -->
+        {% if usuario_ativo.is_auditor %}
+
+        <div class="container">
+          <div class="d-flex justify-content-around py-1">
+            <a class="nav-link-res text-center" href="{% url 'restrito:au-consulta-faturadas'%}">
+              <p style="font-size: 12px;">
+                Consultas
+              </p>
+              <i class="bi bi-square" style="color: #70706f;"></i>
+              &ensp;Aguardando
+            </a>
+        
+            <a class="nav-link-res text-center" href="{% url 'restrito:au-consulta-auditadas'%}">
+              <p style="font-size: 12px;">
+                Consultas
+              </p>
+              <i class="bi bi-check-square" style="color: #1680e4;"></i>
+              &ensp;Auditadas
+            </a>
+          
+            <div class="border-end"></div>
+        
+            <a class="nav-link-res text-center" href="{% url 'restrito:au-exame-lista'%}">
+              <p style="font-size: 12px;">
+                Exames
+              </p>
+              <i class="bi bi-square" style="color: #70706f;"></i>
+              &ensp;Aguardando
+            </a>
+          
+            <a class="nav-link-res text-center" href="{% url 'restrito:au-exame-lista'%}">
+              <p style="font-size: 12px;">
+                Exames
+              </p>
+              <i class="bi bi-check-square" style="color: #1680e4;"></i>
+              &ensp;Auditados
+            </a>
+          </div>
+        </div>
+        
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  
+<!-- Body -->
+  <div class="container px-2">
+    {% block baseRestrito %} {% endblock %}
+  </div>
+
+</div>
+
+<!-- Modal 
+
+<div data-bs-theme="dark">
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="max-width: 275px;">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel;">
+        <a href="/">
+          SIGAME
+        </a>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body">
+      <a class="nav-link text-white mb-4" href="{% url 'guias:home'%}">
+        <i class="fa fa-external-link me-2" aria-hidden="true"></i>
+        Home
+      </a>
+      <a class="nav-link text-white my-4 " href="{% url 'guias:consulta-lista'%}">
+        <i class="fa fa-external-link me-2" aria-hidden="true"></i>
+        Consultas
+      </a>
+      <a class="nav-link text-white my-4 " href="{% url 'guias:exame-lista'%}">
+        <i class="fa fa-external-link me-2" aria-hidden="true"></i>
+        Exames
+      </a>
+      <a class="nav-link text-white mb-4" href="{% url 'guias:consulta-nova'%}">
+        <i class="fa fa-external-link me-2" aria-hidden="true"></i>
+        Nova Consulta
+      </a>
+      <a class="nav-link text-white mb-4" href="{% url 'guias:exame-novo'%}">
+        <i class="fa fa-external-link me-2" aria-hidden="true"></i>
+        Novo Exame
+      </a>
+      <a class="nav-link text-white mb-4" href="{% url 'guias:financeiro'%}">
+        <i class="fa fa-external-link me-2" aria-hidden="true"></i>
+        Financeiro
+      </a>
+      <a class="nav-link text-white mb-4" href="{% url 'guias:credenciados'%}">
+        <i class="fa fa-external-link me-2" aria-hidden="true"></i>
+        Convênios
+      </a>
+    </div>
+
+  </div>
+
+</div>
+-->
+
+{% endblock %}

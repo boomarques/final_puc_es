@@ -1,0 +1,73 @@
+/*************************************************************************************** IMPORTS */
+
+:root{
+/*   
+  --color-01: #152020;
+  --color-02: #03989E; 
+  --color-03: #acabab; 
+  --color-04: #f7f8f7; 
+  --color-05: #d3d9db;
+*/
+--color-01: #152020;
+--color-02: #03989E; 
+--color-03: #98a9b2; 
+--color-04: #eef4f4; 
+--color-05: #738db924;
+
+}
+
+.bg-c1{
+  background-color: var(--color-01);
+}
+
+.bg-c2{
+  background-color: var(--color-02);
+}
+
+.bg-c3{
+  background-color: var(--color-03);
+}
+
+.guias-link {
+  background-color: var(--color-05);
+}
+
+.guias-link:hover {
+  background-color: var(--color-03);
+}
+
+
+/* BOOTSTRAP */
+
+.nav-link {
+  color: var(--color-01);
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.nav-link-res {
+  color: rgb(50, 58, 77);
+  font-size: 15px;
+}
+
+.nav-link-res:hover {
+  color: white;
+}
+
+
+
+
+.container {
+  max-width: 1024px;
+}
+
+.accordion-body {
+  background-color: var(--color-04);
+}
+
+.accordion-button:not(.collapsed) {
+  color: white;
+  background-color: var(--color-02);
+}

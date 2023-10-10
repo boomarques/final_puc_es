@@ -1,0 +1,47 @@
+{% extends 'base/base01.html' %}
+{%load static%}
+
+{% block base01 %}
+
+<div class="row d-flex justify-content-center pb-3 mt-5 mx-1">
+  <div class="col-12 col-md-5 d-flex align-items-center">
+    <p>
+      Com o propósito de criar um cenário complexo, que pudesse proporcionar a prática dos conceitos aprendidos
+      no curso de Pós Graduação em Engenharia de Software da Puc Minas Virtual, foi desenvolvido o SIGAME.
+    </p>
+  </div>
+
+  <div class="col-12 col-md-5 d-flex align-items-center justify-content-center">
+    <img src="{% static 'imgs/sobre_01.png'%}" alt="sigame" height="175px" width="175px">
+  </div>
+</div>
+
+<div class="row d-flex justify-content-center pb-3 mx-1">
+  
+  <div class="col-12 col-md-5 order-0 order-md-1 d-flex align-items-center">
+    <p>
+      Baseando-se na vivência profissional dos integrantes, decidiu-se pela criação de um sistema que pudesse auxiliar
+      uma empresa em sua gestão de apoio médico oferecido aos colaboradores.
+    </p>
+  </div>
+
+  <div class="col-12 col-md-5 order-1 order-md-0 d-flex align-items-center justify-content-center">
+    <img src="{% static 'imgs/logo_01.png'%}" alt="sigame" height="175px" width="175px">
+  </div>
+</div>
+
+<div class="row d-flex justify-content-center pb-3 mx-1">
+  <div class="col-12 col-md-5 d-flex align-items-center">
+    <p>
+      No SIGAME, o cliente poderá solicitar consultas e exames, visualizar status de aprovação e faturamento,
+    entre outros...
+    </p>
+  </div>
+  
+  <div class="col-12 col-md-5 d-flex align-items-center justify-content-center">
+    <img src="{% static 'imgs/sobre_03.png'%}" alt="sigame" height="175px" width="175px">
+  </div>
+</div>
+
+
+{% endblock %}
